@@ -21,7 +21,6 @@
 
 module Components.HelperBar exposing (Msg(..), State, init, subscriptions, update, view)
 
-import Array
 import Assets as A
 import Bulk exposing (UserState(..), getParentFragmentFromRole)
 import Bulk.Codecs exposing (DocType(..), FractalBaseRoute(..), NodeFocus, getOrgaRoles, isPending, isTensionBaseUri, nid2rootid, nid2type, uriFromNameid)

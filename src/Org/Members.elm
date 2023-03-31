@@ -21,7 +21,6 @@
 
 module Org.Members exposing (Flags, Model, Msg, init, page, subscriptions, update, view)
 
-import Array
 import Assets as A
 import Auth exposing (ErrState(..), parseErr)
 import Browser.Navigation as Nav
