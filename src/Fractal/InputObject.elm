@@ -42,6 +42,12 @@ import Fractal.Enum.PendingUserHasFilter
 import Fractal.Enum.PendingUserOrderable
 import Fractal.Enum.PostHasFilter
 import Fractal.Enum.PostOrderable
+import Fractal.Enum.ProjectColumnHasFilter
+import Fractal.Enum.ProjectColumnOrderable
+import Fractal.Enum.ProjectHasFilter
+import Fractal.Enum.ProjectOrderable
+import Fractal.Enum.ProjectTensionHasFilter
+import Fractal.Enum.ProjectTensionOrderable
 import Fractal.Enum.ReactionHasFilter
 import Fractal.Enum.ReactionOrderable
 import Fractal.Enum.RoleExtHasFilter
@@ -567,9 +573,9 @@ buildAddNodeInput required____ fillOptionals____ =
     let
         optionals____ =
             fillOptionals____
-                { updatedAt = Absent, source = Absent, about = Absent, skills = Absent, parent = Absent, tensions_out = Absent, tensions_in = Absent, isPersonal = Absent, userCanJoin = Absent, guestCanCreateTension = Absent, watchers = Absent, children = Absent, labels = Absent, roles = Absent, pinned = Absent, role_ext = Absent, role_type = Absent, color = Absent, first_link = Absent, second_link = Absent, contracts = Absent, orga_agg = Absent, events_history = Absent }
+                { updatedAt = Absent, source = Absent, about = Absent, skills = Absent, parent = Absent, tensions_out = Absent, tensions_in = Absent, isPersonal = Absent, userCanJoin = Absent, guestCanCreateTension = Absent, watchers = Absent, children = Absent, labels = Absent, roles = Absent, projects = Absent, pinned = Absent, role_ext = Absent, role_type = Absent, color = Absent, first_link = Absent, second_link = Absent, contracts = Absent, orga_agg = Absent, events_history = Absent }
     in
-    AddNodeInput { createdBy = required____.createdBy, createdAt = required____.createdAt, updatedAt = optionals____.updatedAt, nameid = required____.nameid, rootnameid = required____.rootnameid, source = optionals____.source, name = required____.name, about = optionals____.about, skills = optionals____.skills, isRoot = required____.isRoot, parent = optionals____.parent, type_ = required____.type_, tensions_out = optionals____.tensions_out, tensions_in = optionals____.tensions_in, visibility = required____.visibility, mode = required____.mode, rights = required____.rights, isArchived = required____.isArchived, isPersonal = optionals____.isPersonal, userCanJoin = optionals____.userCanJoin, guestCanCreateTension = optionals____.guestCanCreateTension, watchers = optionals____.watchers, children = optionals____.children, labels = optionals____.labels, roles = optionals____.roles, pinned = optionals____.pinned, role_ext = optionals____.role_ext, role_type = optionals____.role_type, color = optionals____.color, first_link = optionals____.first_link, second_link = optionals____.second_link, contracts = optionals____.contracts, orga_agg = optionals____.orga_agg, events_history = optionals____.events_history }
+    AddNodeInput { createdBy = required____.createdBy, createdAt = required____.createdAt, updatedAt = optionals____.updatedAt, nameid = required____.nameid, rootnameid = required____.rootnameid, source = optionals____.source, name = required____.name, about = optionals____.about, skills = optionals____.skills, isRoot = required____.isRoot, parent = optionals____.parent, type_ = required____.type_, tensions_out = optionals____.tensions_out, tensions_in = optionals____.tensions_in, visibility = required____.visibility, mode = required____.mode, rights = required____.rights, isArchived = required____.isArchived, isPersonal = optionals____.isPersonal, userCanJoin = optionals____.userCanJoin, guestCanCreateTension = optionals____.guestCanCreateTension, watchers = optionals____.watchers, children = optionals____.children, labels = optionals____.labels, roles = optionals____.roles, projects = optionals____.projects, pinned = optionals____.pinned, role_ext = optionals____.role_ext, role_type = optionals____.role_type, color = optionals____.color, first_link = optionals____.first_link, second_link = optionals____.second_link, contracts = optionals____.contracts, orga_agg = optionals____.orga_agg, events_history = optionals____.events_history }
 
 
 type alias AddNodeInputRequiredFields =
@@ -602,6 +608,7 @@ type alias AddNodeInputOptionalFields =
     , children : OptionalArgument (List NodeRef)
     , labels : OptionalArgument (List LabelRef)
     , roles : OptionalArgument (List RoleExtRef)
+    , projects : OptionalArgument (List ProjectRef)
     , pinned : OptionalArgument (List TensionRef)
     , role_ext : OptionalArgument RoleExtRef
     , role_type : OptionalArgument Fractal.Enum.RoleType.RoleType
@@ -645,6 +652,7 @@ type alias AddNodeInputRaw =
     , children : OptionalArgument (List NodeRef)
     , labels : OptionalArgument (List LabelRef)
     , roles : OptionalArgument (List RoleExtRef)
+    , projects : OptionalArgument (List ProjectRef)
     , pinned : OptionalArgument (List TensionRef)
     , role_ext : OptionalArgument RoleExtRef
     , role_type : OptionalArgument Fractal.Enum.RoleType.RoleType
@@ -668,7 +676,7 @@ type AddNodeInput
 encodeAddNodeInput : AddNodeInput -> Value
 encodeAddNodeInput (AddNodeInput input____) =
     Encode.maybeObject
-        [ ( "createdBy", encodeUserRef input____.createdBy |> Just ), ( "createdAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) input____.createdAt |> Just ), ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "nameid", Encode.string input____.nameid |> Just ), ( "rootnameid", Encode.string input____.rootnameid |> Just ), ( "source", encodeBlobRef |> Encode.optional input____.source ), ( "name", Encode.string input____.name |> Just ), ( "about", Encode.string |> Encode.optional input____.about ), ( "skills", (Encode.string |> Encode.list) |> Encode.optional input____.skills ), ( "isRoot", Encode.bool input____.isRoot |> Just ), ( "parent", encodeNodeRef |> Encode.optional input____.parent ), ( "type_", Encode.enum Fractal.Enum.NodeType.toString input____.type_ |> Just ), ( "tensions_out", (encodeTensionRef |> Encode.list) |> Encode.optional input____.tensions_out ), ( "tensions_in", (encodeTensionRef |> Encode.list) |> Encode.optional input____.tensions_in ), ( "visibility", Encode.enum Fractal.Enum.NodeVisibility.toString input____.visibility |> Just ), ( "mode", Encode.enum Fractal.Enum.NodeMode.toString input____.mode |> Just ), ( "rights", Encode.int input____.rights |> Just ), ( "isArchived", Encode.bool input____.isArchived |> Just ), ( "isPersonal", Encode.bool |> Encode.optional input____.isPersonal ), ( "userCanJoin", Encode.bool |> Encode.optional input____.userCanJoin ), ( "guestCanCreateTension", Encode.bool |> Encode.optional input____.guestCanCreateTension ), ( "watchers", (encodeUserRef |> Encode.list) |> Encode.optional input____.watchers ), ( "children", (encodeNodeRef |> Encode.list) |> Encode.optional input____.children ), ( "labels", (encodeLabelRef |> Encode.list) |> Encode.optional input____.labels ), ( "roles", (encodeRoleExtRef |> Encode.list) |> Encode.optional input____.roles ), ( "pinned", (encodeTensionRef |> Encode.list) |> Encode.optional input____.pinned ), ( "role_ext", encodeRoleExtRef |> Encode.optional input____.role_ext ), ( "role_type", Encode.enum Fractal.Enum.RoleType.toString |> Encode.optional input____.role_type ), ( "color", Encode.string |> Encode.optional input____.color ), ( "first_link", encodeUserRef |> Encode.optional input____.first_link ), ( "second_link", encodeUserRef |> Encode.optional input____.second_link ), ( "contracts", (encodeVoteRef |> Encode.list) |> Encode.optional input____.contracts ), ( "orga_agg", encodeOrgaAggRef |> Encode.optional input____.orga_agg ), ( "events_history", (encodeEventRef |> Encode.list) |> Encode.optional input____.events_history ) ]
+        [ ( "createdBy", encodeUserRef input____.createdBy |> Just ), ( "createdAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) input____.createdAt |> Just ), ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "nameid", Encode.string input____.nameid |> Just ), ( "rootnameid", Encode.string input____.rootnameid |> Just ), ( "source", encodeBlobRef |> Encode.optional input____.source ), ( "name", Encode.string input____.name |> Just ), ( "about", Encode.string |> Encode.optional input____.about ), ( "skills", (Encode.string |> Encode.list) |> Encode.optional input____.skills ), ( "isRoot", Encode.bool input____.isRoot |> Just ), ( "parent", encodeNodeRef |> Encode.optional input____.parent ), ( "type_", Encode.enum Fractal.Enum.NodeType.toString input____.type_ |> Just ), ( "tensions_out", (encodeTensionRef |> Encode.list) |> Encode.optional input____.tensions_out ), ( "tensions_in", (encodeTensionRef |> Encode.list) |> Encode.optional input____.tensions_in ), ( "visibility", Encode.enum Fractal.Enum.NodeVisibility.toString input____.visibility |> Just ), ( "mode", Encode.enum Fractal.Enum.NodeMode.toString input____.mode |> Just ), ( "rights", Encode.int input____.rights |> Just ), ( "isArchived", Encode.bool input____.isArchived |> Just ), ( "isPersonal", Encode.bool |> Encode.optional input____.isPersonal ), ( "userCanJoin", Encode.bool |> Encode.optional input____.userCanJoin ), ( "guestCanCreateTension", Encode.bool |> Encode.optional input____.guestCanCreateTension ), ( "watchers", (encodeUserRef |> Encode.list) |> Encode.optional input____.watchers ), ( "children", (encodeNodeRef |> Encode.list) |> Encode.optional input____.children ), ( "labels", (encodeLabelRef |> Encode.list) |> Encode.optional input____.labels ), ( "roles", (encodeRoleExtRef |> Encode.list) |> Encode.optional input____.roles ), ( "projects", (encodeProjectRef |> Encode.list) |> Encode.optional input____.projects ), ( "pinned", (encodeTensionRef |> Encode.list) |> Encode.optional input____.pinned ), ( "role_ext", encodeRoleExtRef |> Encode.optional input____.role_ext ), ( "role_type", Encode.enum Fractal.Enum.RoleType.toString |> Encode.optional input____.role_type ), ( "color", Encode.string |> Encode.optional input____.color ), ( "first_link", encodeUserRef |> Encode.optional input____.first_link ), ( "second_link", encodeUserRef |> Encode.optional input____.second_link ), ( "contracts", (encodeVoteRef |> Encode.list) |> Encode.optional input____.contracts ), ( "orga_agg", encodeOrgaAggRef |> Encode.optional input____.orga_agg ), ( "events_history", (encodeEventRef |> Encode.list) |> Encode.optional input____.events_history ) ]
 
 
 buildAddNotifInput :
@@ -818,6 +826,160 @@ encodeAddPendingUserInput (AddPendingUserInput input____) =
         [ ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "username", Encode.string |> Encode.optional input____.username ), ( "password", Encode.string |> Encode.optional input____.password ), ( "email", Encode.string |> Encode.optional input____.email ), ( "email_token", Encode.string |> Encode.optional input____.email_token ), ( "token", Encode.string |> Encode.optional input____.token ), ( "contracts", (encodeContractRef |> Encode.list) |> Encode.optional input____.contracts ), ( "subscribe", Encode.bool |> Encode.optional input____.subscribe ) ]
 
 
+buildAddProjectColumnInput :
+    AddProjectColumnInputRequiredFields
+    -> (AddProjectColumnInputOptionalFields -> AddProjectColumnInputOptionalFields)
+    -> AddProjectColumnInput
+buildAddProjectColumnInput required____ fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { about = Absent, tensions = Absent }
+    in
+    AddProjectColumnInput { name = required____.name, about = optionals____.about, pos = required____.pos, tensions = optionals____.tensions, project = required____.project }
+
+
+type alias AddProjectColumnInputRequiredFields =
+    { name : String
+    , pos : Int
+    , project : ProjectRef
+    }
+
+
+type alias AddProjectColumnInputOptionalFields =
+    { about : OptionalArgument String
+    , tensions : OptionalArgument (List ProjectTensionRef)
+    }
+
+
+{-| Type alias for the `AddProjectColumnInput` attributes. Note that this type
+needs to use the `AddProjectColumnInput` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias AddProjectColumnInputRaw =
+    { name : String
+    , about : OptionalArgument String
+    , pos : Int
+    , tensions : OptionalArgument (List ProjectTensionRef)
+    , project : ProjectRef
+    }
+
+
+{-| Type for the AddProjectColumnInput input object.
+-}
+type AddProjectColumnInput
+    = AddProjectColumnInput AddProjectColumnInputRaw
+
+
+{-| Encode a AddProjectColumnInput into a value that can be used as an argument.
+-}
+encodeAddProjectColumnInput : AddProjectColumnInput -> Value
+encodeAddProjectColumnInput (AddProjectColumnInput input____) =
+    Encode.maybeObject
+        [ ( "name", Encode.string input____.name |> Just ), ( "about", Encode.string |> Encode.optional input____.about ), ( "pos", Encode.int input____.pos |> Just ), ( "tensions", (encodeProjectTensionRef |> Encode.list) |> Encode.optional input____.tensions ), ( "project", encodeProjectRef input____.project |> Just ) ]
+
+
+buildAddProjectInput :
+    AddProjectInputRequiredFields
+    -> (AddProjectInputOptionalFields -> AddProjectInputOptionalFields)
+    -> AddProjectInput
+buildAddProjectInput required____ fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { about = Absent, columns = Absent, leaders = Absent, nodes = Absent }
+    in
+    AddProjectInput { rootnameid = required____.rootnameid, parentnameid = required____.parentnameid, nameid = required____.nameid, name = required____.name, about = optionals____.about, columns = optionals____.columns, leaders = optionals____.leaders, nodes = optionals____.nodes }
+
+
+type alias AddProjectInputRequiredFields =
+    { rootnameid : String
+    , parentnameid : String
+    , nameid : String
+    , name : String
+    }
+
+
+type alias AddProjectInputOptionalFields =
+    { about : OptionalArgument String
+    , columns : OptionalArgument (List ProjectColumnRef)
+    , leaders : OptionalArgument (List NodeRef)
+    , nodes : OptionalArgument (List NodeRef)
+    }
+
+
+{-| Type alias for the `AddProjectInput` attributes. Note that this type
+needs to use the `AddProjectInput` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias AddProjectInputRaw =
+    { rootnameid : String
+    , parentnameid : String
+    , nameid : String
+    , name : String
+    , about : OptionalArgument String
+    , columns : OptionalArgument (List ProjectColumnRef)
+    , leaders : OptionalArgument (List NodeRef)
+    , nodes : OptionalArgument (List NodeRef)
+    }
+
+
+{-| Type for the AddProjectInput input object.
+-}
+type AddProjectInput
+    = AddProjectInput AddProjectInputRaw
+
+
+{-| Encode a AddProjectInput into a value that can be used as an argument.
+-}
+encodeAddProjectInput : AddProjectInput -> Value
+encodeAddProjectInput (AddProjectInput input____) =
+    Encode.maybeObject
+        [ ( "rootnameid", Encode.string input____.rootnameid |> Just ), ( "parentnameid", Encode.string input____.parentnameid |> Just ), ( "nameid", Encode.string input____.nameid |> Just ), ( "name", Encode.string input____.name |> Just ), ( "about", Encode.string |> Encode.optional input____.about ), ( "columns", (encodeProjectColumnRef |> Encode.list) |> Encode.optional input____.columns ), ( "leaders", (encodeNodeRef |> Encode.list) |> Encode.optional input____.leaders ), ( "nodes", (encodeNodeRef |> Encode.list) |> Encode.optional input____.nodes ) ]
+
+
+buildAddProjectTensionInput :
+    AddProjectTensionInputRequiredFields
+    -> AddProjectTensionInput
+buildAddProjectTensionInput required____ =
+    AddProjectTensionInput { tension = required____.tension, pos = required____.pos, pc = required____.pc }
+
+
+type alias AddProjectTensionInputRequiredFields =
+    { tension : TensionRef
+    , pos : Int
+    , pc : ProjectColumnRef
+    }
+
+
+{-| Type alias for the `AddProjectTensionInput` attributes. Note that this type
+needs to use the `AddProjectTensionInput` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias AddProjectTensionInputRaw =
+    { tension : TensionRef
+    , pos : Int
+    , pc : ProjectColumnRef
+    }
+
+
+{-| Type for the AddProjectTensionInput input object.
+-}
+type AddProjectTensionInput
+    = AddProjectTensionInput AddProjectTensionInputRaw
+
+
+{-| Encode a AddProjectTensionInput into a value that can be used as an argument.
+-}
+encodeAddProjectTensionInput : AddProjectTensionInput -> Value
+encodeAddProjectTensionInput (AddProjectTensionInput input____) =
+    Encode.maybeObject
+        [ ( "tension", encodeTensionRef input____.tension |> Just ), ( "pos", Encode.int input____.pos |> Just ), ( "pc", encodeProjectColumnRef input____.pc |> Just ) ]
+
+
 buildAddReactionInput :
     AddReactionInputRequiredFields
     -> (AddReactionInputOptionalFields -> AddReactionInputOptionalFields)
@@ -937,9 +1099,9 @@ buildAddTensionInput required____ fillOptionals____ =
     let
         optionals____ =
             fillOptionals____
-                { updatedAt = Absent, message = Absent, action = Absent, assignees = Absent, labels = Absent, comments = Absent, blobs = Absent, history = Absent, mentions = Absent, contracts = Absent, subscribers = Absent, n_comments = Absent, n_open_contracts = Absent }
+                { updatedAt = Absent, message = Absent, action = Absent, assignees = Absent, labels = Absent, comments = Absent, blobs = Absent, history = Absent, mentions = Absent, contracts = Absent, subscribers = Absent, projects = Absent, n_comments = Absent, n_open_contracts = Absent }
     in
-    AddTensionInput { createdBy = required____.createdBy, createdAt = required____.createdAt, updatedAt = optionals____.updatedAt, message = optionals____.message, emitter = required____.emitter, emitterid = required____.emitterid, receiver = required____.receiver, receiverid = required____.receiverid, title = required____.title, type_ = required____.type_, status = required____.status, action = optionals____.action, assignees = optionals____.assignees, labels = optionals____.labels, comments = optionals____.comments, blobs = optionals____.blobs, history = optionals____.history, mentions = optionals____.mentions, contracts = optionals____.contracts, subscribers = optionals____.subscribers, n_comments = optionals____.n_comments, n_open_contracts = optionals____.n_open_contracts }
+    AddTensionInput { createdBy = required____.createdBy, createdAt = required____.createdAt, updatedAt = optionals____.updatedAt, message = optionals____.message, emitter = required____.emitter, emitterid = required____.emitterid, receiver = required____.receiver, receiverid = required____.receiverid, title = required____.title, type_ = required____.type_, status = required____.status, action = optionals____.action, assignees = optionals____.assignees, labels = optionals____.labels, comments = optionals____.comments, blobs = optionals____.blobs, history = optionals____.history, mentions = optionals____.mentions, contracts = optionals____.contracts, subscribers = optionals____.subscribers, projects = optionals____.projects, n_comments = optionals____.n_comments, n_open_contracts = optionals____.n_open_contracts }
 
 
 type alias AddTensionInputRequiredFields =
@@ -967,6 +1129,7 @@ type alias AddTensionInputOptionalFields =
     , mentions : OptionalArgument (List EventRef)
     , contracts : OptionalArgument (List ContractRef)
     , subscribers : OptionalArgument (List UserRef)
+    , projects : OptionalArgument (List ProjectTensionRef)
     , n_comments : OptionalArgument Int
     , n_open_contracts : OptionalArgument Int
     }
@@ -998,6 +1161,7 @@ type alias AddTensionInputRaw =
     , mentions : OptionalArgument (List EventRef)
     , contracts : OptionalArgument (List ContractRef)
     , subscribers : OptionalArgument (List UserRef)
+    , projects : OptionalArgument (List ProjectTensionRef)
     , n_comments : OptionalArgument Int
     , n_open_contracts : OptionalArgument Int
     }
@@ -1014,7 +1178,7 @@ type AddTensionInput
 encodeAddTensionInput : AddTensionInput -> Value
 encodeAddTensionInput (AddTensionInput input____) =
     Encode.maybeObject
-        [ ( "createdBy", encodeUserRef input____.createdBy |> Just ), ( "createdAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) input____.createdAt |> Just ), ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "message", Encode.string |> Encode.optional input____.message ), ( "emitter", encodeNodeRef input____.emitter |> Just ), ( "emitterid", Encode.string input____.emitterid |> Just ), ( "receiver", encodeNodeRef input____.receiver |> Just ), ( "receiverid", Encode.string input____.receiverid |> Just ), ( "title", Encode.string input____.title |> Just ), ( "type_", Encode.enum Fractal.Enum.TensionType.toString input____.type_ |> Just ), ( "status", Encode.enum Fractal.Enum.TensionStatus.toString input____.status |> Just ), ( "action", Encode.enum Fractal.Enum.TensionAction.toString |> Encode.optional input____.action ), ( "assignees", (encodeUserRef |> Encode.list) |> Encode.optional input____.assignees ), ( "labels", (encodeLabelRef |> Encode.list) |> Encode.optional input____.labels ), ( "comments", (encodeCommentRef |> Encode.list) |> Encode.optional input____.comments ), ( "blobs", (encodeBlobRef |> Encode.list) |> Encode.optional input____.blobs ), ( "history", (encodeEventRef |> Encode.list) |> Encode.optional input____.history ), ( "mentions", (encodeEventRef |> Encode.list) |> Encode.optional input____.mentions ), ( "contracts", (encodeContractRef |> Encode.list) |> Encode.optional input____.contracts ), ( "subscribers", (encodeUserRef |> Encode.list) |> Encode.optional input____.subscribers ), ( "n_comments", Encode.int |> Encode.optional input____.n_comments ), ( "n_open_contracts", Encode.int |> Encode.optional input____.n_open_contracts ) ]
+        [ ( "createdBy", encodeUserRef input____.createdBy |> Just ), ( "createdAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) input____.createdAt |> Just ), ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "message", Encode.string |> Encode.optional input____.message ), ( "emitter", encodeNodeRef input____.emitter |> Just ), ( "emitterid", Encode.string input____.emitterid |> Just ), ( "receiver", encodeNodeRef input____.receiver |> Just ), ( "receiverid", Encode.string input____.receiverid |> Just ), ( "title", Encode.string input____.title |> Just ), ( "type_", Encode.enum Fractal.Enum.TensionType.toString input____.type_ |> Just ), ( "status", Encode.enum Fractal.Enum.TensionStatus.toString input____.status |> Just ), ( "action", Encode.enum Fractal.Enum.TensionAction.toString |> Encode.optional input____.action ), ( "assignees", (encodeUserRef |> Encode.list) |> Encode.optional input____.assignees ), ( "labels", (encodeLabelRef |> Encode.list) |> Encode.optional input____.labels ), ( "comments", (encodeCommentRef |> Encode.list) |> Encode.optional input____.comments ), ( "blobs", (encodeBlobRef |> Encode.list) |> Encode.optional input____.blobs ), ( "history", (encodeEventRef |> Encode.list) |> Encode.optional input____.history ), ( "mentions", (encodeEventRef |> Encode.list) |> Encode.optional input____.mentions ), ( "contracts", (encodeContractRef |> Encode.list) |> Encode.optional input____.contracts ), ( "subscribers", (encodeUserRef |> Encode.list) |> Encode.optional input____.subscribers ), ( "projects", (encodeProjectTensionRef |> Encode.list) |> Encode.optional input____.projects ), ( "n_comments", Encode.int |> Encode.optional input____.n_comments ), ( "n_open_contracts", Encode.int |> Encode.optional input____.n_open_contracts ) ]
 
 
 buildAddUserEventInput :
@@ -4030,9 +4194,9 @@ buildNodePatch fillOptionals____ =
     let
         optionals____ =
             fillOptionals____
-                { createdBy = Absent, createdAt = Absent, updatedAt = Absent, nameid = Absent, rootnameid = Absent, source = Absent, name = Absent, about = Absent, skills = Absent, isRoot = Absent, parent = Absent, type_ = Absent, tensions_out = Absent, tensions_in = Absent, visibility = Absent, mode = Absent, rights = Absent, isArchived = Absent, isPersonal = Absent, userCanJoin = Absent, guestCanCreateTension = Absent, watchers = Absent, children = Absent, labels = Absent, roles = Absent, pinned = Absent, role_ext = Absent, role_type = Absent, color = Absent, first_link = Absent, second_link = Absent, contracts = Absent, orga_agg = Absent, events_history = Absent }
+                { createdBy = Absent, createdAt = Absent, updatedAt = Absent, nameid = Absent, rootnameid = Absent, source = Absent, name = Absent, about = Absent, skills = Absent, isRoot = Absent, parent = Absent, type_ = Absent, tensions_out = Absent, tensions_in = Absent, visibility = Absent, mode = Absent, rights = Absent, isArchived = Absent, isPersonal = Absent, userCanJoin = Absent, guestCanCreateTension = Absent, watchers = Absent, children = Absent, labels = Absent, roles = Absent, projects = Absent, pinned = Absent, role_ext = Absent, role_type = Absent, color = Absent, first_link = Absent, second_link = Absent, contracts = Absent, orga_agg = Absent, events_history = Absent }
     in
-    NodePatch { createdBy = optionals____.createdBy, createdAt = optionals____.createdAt, updatedAt = optionals____.updatedAt, nameid = optionals____.nameid, rootnameid = optionals____.rootnameid, source = optionals____.source, name = optionals____.name, about = optionals____.about, skills = optionals____.skills, isRoot = optionals____.isRoot, parent = optionals____.parent, type_ = optionals____.type_, tensions_out = optionals____.tensions_out, tensions_in = optionals____.tensions_in, visibility = optionals____.visibility, mode = optionals____.mode, rights = optionals____.rights, isArchived = optionals____.isArchived, isPersonal = optionals____.isPersonal, userCanJoin = optionals____.userCanJoin, guestCanCreateTension = optionals____.guestCanCreateTension, watchers = optionals____.watchers, children = optionals____.children, labels = optionals____.labels, roles = optionals____.roles, pinned = optionals____.pinned, role_ext = optionals____.role_ext, role_type = optionals____.role_type, color = optionals____.color, first_link = optionals____.first_link, second_link = optionals____.second_link, contracts = optionals____.contracts, orga_agg = optionals____.orga_agg, events_history = optionals____.events_history }
+    NodePatch { createdBy = optionals____.createdBy, createdAt = optionals____.createdAt, updatedAt = optionals____.updatedAt, nameid = optionals____.nameid, rootnameid = optionals____.rootnameid, source = optionals____.source, name = optionals____.name, about = optionals____.about, skills = optionals____.skills, isRoot = optionals____.isRoot, parent = optionals____.parent, type_ = optionals____.type_, tensions_out = optionals____.tensions_out, tensions_in = optionals____.tensions_in, visibility = optionals____.visibility, mode = optionals____.mode, rights = optionals____.rights, isArchived = optionals____.isArchived, isPersonal = optionals____.isPersonal, userCanJoin = optionals____.userCanJoin, guestCanCreateTension = optionals____.guestCanCreateTension, watchers = optionals____.watchers, children = optionals____.children, labels = optionals____.labels, roles = optionals____.roles, projects = optionals____.projects, pinned = optionals____.pinned, role_ext = optionals____.role_ext, role_type = optionals____.role_type, color = optionals____.color, first_link = optionals____.first_link, second_link = optionals____.second_link, contracts = optionals____.contracts, orga_agg = optionals____.orga_agg, events_history = optionals____.events_history }
 
 
 type alias NodePatchOptionalFields =
@@ -4061,6 +4225,7 @@ type alias NodePatchOptionalFields =
     , children : OptionalArgument (List NodeRef)
     , labels : OptionalArgument (List LabelRef)
     , roles : OptionalArgument (List RoleExtRef)
+    , projects : OptionalArgument (List ProjectRef)
     , pinned : OptionalArgument (List TensionRef)
     , role_ext : OptionalArgument RoleExtRef
     , role_type : OptionalArgument Fractal.Enum.RoleType.RoleType
@@ -4104,6 +4269,7 @@ type alias NodePatchRaw =
     , children : OptionalArgument (List NodeRef)
     , labels : OptionalArgument (List LabelRef)
     , roles : OptionalArgument (List RoleExtRef)
+    , projects : OptionalArgument (List ProjectRef)
     , pinned : OptionalArgument (List TensionRef)
     , role_ext : OptionalArgument RoleExtRef
     , role_type : OptionalArgument Fractal.Enum.RoleType.RoleType
@@ -4127,7 +4293,7 @@ type NodePatch
 encodeNodePatch : NodePatch -> Value
 encodeNodePatch (NodePatch input____) =
     Encode.maybeObject
-        [ ( "createdBy", encodeUserRef |> Encode.optional input____.createdBy ), ( "createdAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.createdAt ), ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "nameid", Encode.string |> Encode.optional input____.nameid ), ( "rootnameid", Encode.string |> Encode.optional input____.rootnameid ), ( "source", encodeBlobRef |> Encode.optional input____.source ), ( "name", Encode.string |> Encode.optional input____.name ), ( "about", Encode.string |> Encode.optional input____.about ), ( "skills", (Encode.string |> Encode.list) |> Encode.optional input____.skills ), ( "isRoot", Encode.bool |> Encode.optional input____.isRoot ), ( "parent", encodeNodeRef |> Encode.optional input____.parent ), ( "type_", Encode.enum Fractal.Enum.NodeType.toString |> Encode.optional input____.type_ ), ( "tensions_out", (encodeTensionRef |> Encode.list) |> Encode.optional input____.tensions_out ), ( "tensions_in", (encodeTensionRef |> Encode.list) |> Encode.optional input____.tensions_in ), ( "visibility", Encode.enum Fractal.Enum.NodeVisibility.toString |> Encode.optional input____.visibility ), ( "mode", Encode.enum Fractal.Enum.NodeMode.toString |> Encode.optional input____.mode ), ( "rights", Encode.int |> Encode.optional input____.rights ), ( "isArchived", Encode.bool |> Encode.optional input____.isArchived ), ( "isPersonal", Encode.bool |> Encode.optional input____.isPersonal ), ( "userCanJoin", Encode.bool |> Encode.optional input____.userCanJoin ), ( "guestCanCreateTension", Encode.bool |> Encode.optional input____.guestCanCreateTension ), ( "watchers", (encodeUserRef |> Encode.list) |> Encode.optional input____.watchers ), ( "children", (encodeNodeRef |> Encode.list) |> Encode.optional input____.children ), ( "labels", (encodeLabelRef |> Encode.list) |> Encode.optional input____.labels ), ( "roles", (encodeRoleExtRef |> Encode.list) |> Encode.optional input____.roles ), ( "pinned", (encodeTensionRef |> Encode.list) |> Encode.optional input____.pinned ), ( "role_ext", encodeRoleExtRef |> Encode.optional input____.role_ext ), ( "role_type", Encode.enum Fractal.Enum.RoleType.toString |> Encode.optional input____.role_type ), ( "color", Encode.string |> Encode.optional input____.color ), ( "first_link", encodeUserRef |> Encode.optional input____.first_link ), ( "second_link", encodeUserRef |> Encode.optional input____.second_link ), ( "contracts", (encodeVoteRef |> Encode.list) |> Encode.optional input____.contracts ), ( "orga_agg", encodeOrgaAggRef |> Encode.optional input____.orga_agg ), ( "events_history", (encodeEventRef |> Encode.list) |> Encode.optional input____.events_history ) ]
+        [ ( "createdBy", encodeUserRef |> Encode.optional input____.createdBy ), ( "createdAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.createdAt ), ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "nameid", Encode.string |> Encode.optional input____.nameid ), ( "rootnameid", Encode.string |> Encode.optional input____.rootnameid ), ( "source", encodeBlobRef |> Encode.optional input____.source ), ( "name", Encode.string |> Encode.optional input____.name ), ( "about", Encode.string |> Encode.optional input____.about ), ( "skills", (Encode.string |> Encode.list) |> Encode.optional input____.skills ), ( "isRoot", Encode.bool |> Encode.optional input____.isRoot ), ( "parent", encodeNodeRef |> Encode.optional input____.parent ), ( "type_", Encode.enum Fractal.Enum.NodeType.toString |> Encode.optional input____.type_ ), ( "tensions_out", (encodeTensionRef |> Encode.list) |> Encode.optional input____.tensions_out ), ( "tensions_in", (encodeTensionRef |> Encode.list) |> Encode.optional input____.tensions_in ), ( "visibility", Encode.enum Fractal.Enum.NodeVisibility.toString |> Encode.optional input____.visibility ), ( "mode", Encode.enum Fractal.Enum.NodeMode.toString |> Encode.optional input____.mode ), ( "rights", Encode.int |> Encode.optional input____.rights ), ( "isArchived", Encode.bool |> Encode.optional input____.isArchived ), ( "isPersonal", Encode.bool |> Encode.optional input____.isPersonal ), ( "userCanJoin", Encode.bool |> Encode.optional input____.userCanJoin ), ( "guestCanCreateTension", Encode.bool |> Encode.optional input____.guestCanCreateTension ), ( "watchers", (encodeUserRef |> Encode.list) |> Encode.optional input____.watchers ), ( "children", (encodeNodeRef |> Encode.list) |> Encode.optional input____.children ), ( "labels", (encodeLabelRef |> Encode.list) |> Encode.optional input____.labels ), ( "roles", (encodeRoleExtRef |> Encode.list) |> Encode.optional input____.roles ), ( "projects", (encodeProjectRef |> Encode.list) |> Encode.optional input____.projects ), ( "pinned", (encodeTensionRef |> Encode.list) |> Encode.optional input____.pinned ), ( "role_ext", encodeRoleExtRef |> Encode.optional input____.role_ext ), ( "role_type", Encode.enum Fractal.Enum.RoleType.toString |> Encode.optional input____.role_type ), ( "color", Encode.string |> Encode.optional input____.color ), ( "first_link", encodeUserRef |> Encode.optional input____.first_link ), ( "second_link", encodeUserRef |> Encode.optional input____.second_link ), ( "contracts", (encodeVoteRef |> Encode.list) |> Encode.optional input____.contracts ), ( "orga_agg", encodeOrgaAggRef |> Encode.optional input____.orga_agg ), ( "events_history", (encodeEventRef |> Encode.list) |> Encode.optional input____.events_history ) ]
 
 
 buildNodeRef :
@@ -4137,9 +4303,9 @@ buildNodeRef fillOptionals____ =
     let
         optionals____ =
             fillOptionals____
-                { id = Absent, createdBy = Absent, createdAt = Absent, updatedAt = Absent, nameid = Absent, rootnameid = Absent, source = Absent, name = Absent, about = Absent, skills = Absent, isRoot = Absent, parent = Absent, type_ = Absent, tensions_out = Absent, tensions_in = Absent, visibility = Absent, mode = Absent, rights = Absent, isArchived = Absent, isPersonal = Absent, userCanJoin = Absent, guestCanCreateTension = Absent, watchers = Absent, children = Absent, labels = Absent, roles = Absent, pinned = Absent, role_ext = Absent, role_type = Absent, color = Absent, first_link = Absent, second_link = Absent, contracts = Absent, orga_agg = Absent, events_history = Absent }
+                { id = Absent, createdBy = Absent, createdAt = Absent, updatedAt = Absent, nameid = Absent, rootnameid = Absent, source = Absent, name = Absent, about = Absent, skills = Absent, isRoot = Absent, parent = Absent, type_ = Absent, tensions_out = Absent, tensions_in = Absent, visibility = Absent, mode = Absent, rights = Absent, isArchived = Absent, isPersonal = Absent, userCanJoin = Absent, guestCanCreateTension = Absent, watchers = Absent, children = Absent, labels = Absent, roles = Absent, projects = Absent, pinned = Absent, role_ext = Absent, role_type = Absent, color = Absent, first_link = Absent, second_link = Absent, contracts = Absent, orga_agg = Absent, events_history = Absent }
     in
-    NodeRef { id = optionals____.id, createdBy = optionals____.createdBy, createdAt = optionals____.createdAt, updatedAt = optionals____.updatedAt, nameid = optionals____.nameid, rootnameid = optionals____.rootnameid, source = optionals____.source, name = optionals____.name, about = optionals____.about, skills = optionals____.skills, isRoot = optionals____.isRoot, parent = optionals____.parent, type_ = optionals____.type_, tensions_out = optionals____.tensions_out, tensions_in = optionals____.tensions_in, visibility = optionals____.visibility, mode = optionals____.mode, rights = optionals____.rights, isArchived = optionals____.isArchived, isPersonal = optionals____.isPersonal, userCanJoin = optionals____.userCanJoin, guestCanCreateTension = optionals____.guestCanCreateTension, watchers = optionals____.watchers, children = optionals____.children, labels = optionals____.labels, roles = optionals____.roles, pinned = optionals____.pinned, role_ext = optionals____.role_ext, role_type = optionals____.role_type, color = optionals____.color, first_link = optionals____.first_link, second_link = optionals____.second_link, contracts = optionals____.contracts, orga_agg = optionals____.orga_agg, events_history = optionals____.events_history }
+    NodeRef { id = optionals____.id, createdBy = optionals____.createdBy, createdAt = optionals____.createdAt, updatedAt = optionals____.updatedAt, nameid = optionals____.nameid, rootnameid = optionals____.rootnameid, source = optionals____.source, name = optionals____.name, about = optionals____.about, skills = optionals____.skills, isRoot = optionals____.isRoot, parent = optionals____.parent, type_ = optionals____.type_, tensions_out = optionals____.tensions_out, tensions_in = optionals____.tensions_in, visibility = optionals____.visibility, mode = optionals____.mode, rights = optionals____.rights, isArchived = optionals____.isArchived, isPersonal = optionals____.isPersonal, userCanJoin = optionals____.userCanJoin, guestCanCreateTension = optionals____.guestCanCreateTension, watchers = optionals____.watchers, children = optionals____.children, labels = optionals____.labels, roles = optionals____.roles, projects = optionals____.projects, pinned = optionals____.pinned, role_ext = optionals____.role_ext, role_type = optionals____.role_type, color = optionals____.color, first_link = optionals____.first_link, second_link = optionals____.second_link, contracts = optionals____.contracts, orga_agg = optionals____.orga_agg, events_history = optionals____.events_history }
 
 
 type alias NodeRefOptionalFields =
@@ -4169,6 +4335,7 @@ type alias NodeRefOptionalFields =
     , children : OptionalArgument (List NodeRef)
     , labels : OptionalArgument (List LabelRef)
     , roles : OptionalArgument (List RoleExtRef)
+    , projects : OptionalArgument (List ProjectRef)
     , pinned : OptionalArgument (List TensionRef)
     , role_ext : OptionalArgument RoleExtRef
     , role_type : OptionalArgument Fractal.Enum.RoleType.RoleType
@@ -4213,6 +4380,7 @@ type alias NodeRefRaw =
     , children : OptionalArgument (List NodeRef)
     , labels : OptionalArgument (List LabelRef)
     , roles : OptionalArgument (List RoleExtRef)
+    , projects : OptionalArgument (List ProjectRef)
     , pinned : OptionalArgument (List TensionRef)
     , role_ext : OptionalArgument RoleExtRef
     , role_type : OptionalArgument Fractal.Enum.RoleType.RoleType
@@ -4236,7 +4404,7 @@ type NodeRef
 encodeNodeRef : NodeRef -> Value
 encodeNodeRef (NodeRef input____) =
     Encode.maybeObject
-        [ ( "id", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecId) |> Encode.optional input____.id ), ( "createdBy", encodeUserRef |> Encode.optional input____.createdBy ), ( "createdAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.createdAt ), ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "nameid", Encode.string |> Encode.optional input____.nameid ), ( "rootnameid", Encode.string |> Encode.optional input____.rootnameid ), ( "source", encodeBlobRef |> Encode.optional input____.source ), ( "name", Encode.string |> Encode.optional input____.name ), ( "about", Encode.string |> Encode.optional input____.about ), ( "skills", (Encode.string |> Encode.list) |> Encode.optional input____.skills ), ( "isRoot", Encode.bool |> Encode.optional input____.isRoot ), ( "parent", encodeNodeRef |> Encode.optional input____.parent ), ( "type_", Encode.enum Fractal.Enum.NodeType.toString |> Encode.optional input____.type_ ), ( "tensions_out", (encodeTensionRef |> Encode.list) |> Encode.optional input____.tensions_out ), ( "tensions_in", (encodeTensionRef |> Encode.list) |> Encode.optional input____.tensions_in ), ( "visibility", Encode.enum Fractal.Enum.NodeVisibility.toString |> Encode.optional input____.visibility ), ( "mode", Encode.enum Fractal.Enum.NodeMode.toString |> Encode.optional input____.mode ), ( "rights", Encode.int |> Encode.optional input____.rights ), ( "isArchived", Encode.bool |> Encode.optional input____.isArchived ), ( "isPersonal", Encode.bool |> Encode.optional input____.isPersonal ), ( "userCanJoin", Encode.bool |> Encode.optional input____.userCanJoin ), ( "guestCanCreateTension", Encode.bool |> Encode.optional input____.guestCanCreateTension ), ( "watchers", (encodeUserRef |> Encode.list) |> Encode.optional input____.watchers ), ( "children", (encodeNodeRef |> Encode.list) |> Encode.optional input____.children ), ( "labels", (encodeLabelRef |> Encode.list) |> Encode.optional input____.labels ), ( "roles", (encodeRoleExtRef |> Encode.list) |> Encode.optional input____.roles ), ( "pinned", (encodeTensionRef |> Encode.list) |> Encode.optional input____.pinned ), ( "role_ext", encodeRoleExtRef |> Encode.optional input____.role_ext ), ( "role_type", Encode.enum Fractal.Enum.RoleType.toString |> Encode.optional input____.role_type ), ( "color", Encode.string |> Encode.optional input____.color ), ( "first_link", encodeUserRef |> Encode.optional input____.first_link ), ( "second_link", encodeUserRef |> Encode.optional input____.second_link ), ( "contracts", (encodeVoteRef |> Encode.list) |> Encode.optional input____.contracts ), ( "orga_agg", encodeOrgaAggRef |> Encode.optional input____.orga_agg ), ( "events_history", (encodeEventRef |> Encode.list) |> Encode.optional input____.events_history ) ]
+        [ ( "id", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecId) |> Encode.optional input____.id ), ( "createdBy", encodeUserRef |> Encode.optional input____.createdBy ), ( "createdAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.createdAt ), ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "nameid", Encode.string |> Encode.optional input____.nameid ), ( "rootnameid", Encode.string |> Encode.optional input____.rootnameid ), ( "source", encodeBlobRef |> Encode.optional input____.source ), ( "name", Encode.string |> Encode.optional input____.name ), ( "about", Encode.string |> Encode.optional input____.about ), ( "skills", (Encode.string |> Encode.list) |> Encode.optional input____.skills ), ( "isRoot", Encode.bool |> Encode.optional input____.isRoot ), ( "parent", encodeNodeRef |> Encode.optional input____.parent ), ( "type_", Encode.enum Fractal.Enum.NodeType.toString |> Encode.optional input____.type_ ), ( "tensions_out", (encodeTensionRef |> Encode.list) |> Encode.optional input____.tensions_out ), ( "tensions_in", (encodeTensionRef |> Encode.list) |> Encode.optional input____.tensions_in ), ( "visibility", Encode.enum Fractal.Enum.NodeVisibility.toString |> Encode.optional input____.visibility ), ( "mode", Encode.enum Fractal.Enum.NodeMode.toString |> Encode.optional input____.mode ), ( "rights", Encode.int |> Encode.optional input____.rights ), ( "isArchived", Encode.bool |> Encode.optional input____.isArchived ), ( "isPersonal", Encode.bool |> Encode.optional input____.isPersonal ), ( "userCanJoin", Encode.bool |> Encode.optional input____.userCanJoin ), ( "guestCanCreateTension", Encode.bool |> Encode.optional input____.guestCanCreateTension ), ( "watchers", (encodeUserRef |> Encode.list) |> Encode.optional input____.watchers ), ( "children", (encodeNodeRef |> Encode.list) |> Encode.optional input____.children ), ( "labels", (encodeLabelRef |> Encode.list) |> Encode.optional input____.labels ), ( "roles", (encodeRoleExtRef |> Encode.list) |> Encode.optional input____.roles ), ( "projects", (encodeProjectRef |> Encode.list) |> Encode.optional input____.projects ), ( "pinned", (encodeTensionRef |> Encode.list) |> Encode.optional input____.pinned ), ( "role_ext", encodeRoleExtRef |> Encode.optional input____.role_ext ), ( "role_type", Encode.enum Fractal.Enum.RoleType.toString |> Encode.optional input____.role_type ), ( "color", Encode.string |> Encode.optional input____.color ), ( "first_link", encodeUserRef |> Encode.optional input____.first_link ), ( "second_link", encodeUserRef |> Encode.optional input____.second_link ), ( "contracts", (encodeVoteRef |> Encode.list) |> Encode.optional input____.contracts ), ( "orga_agg", encodeOrgaAggRef |> Encode.optional input____.orga_agg ), ( "events_history", (encodeEventRef |> Encode.list) |> Encode.optional input____.events_history ) ]
 
 
 buildNodeType_hash :
@@ -5208,6 +5376,600 @@ encodePostRef input____ =
         [ ( "id", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecId) input____.id |> Just ) ]
 
 
+buildProjectColumnFilter :
+    (ProjectColumnFilterOptionalFields -> ProjectColumnFilterOptionalFields)
+    -> ProjectColumnFilter
+buildProjectColumnFilter fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { id = Absent, name = Absent, has = Absent, and = Absent, or = Absent, not = Absent }
+    in
+    ProjectColumnFilter { id = optionals____.id, name = optionals____.name, has = optionals____.has, and = optionals____.and, or = optionals____.or, not = optionals____.not }
+
+
+type alias ProjectColumnFilterOptionalFields =
+    { id : OptionalArgument (List Fractal.ScalarCodecs.Id)
+    , name : OptionalArgument StringHashFilter
+    , has : OptionalArgument (List (Maybe Fractal.Enum.ProjectColumnHasFilter.ProjectColumnHasFilter))
+    , and : OptionalArgument (List (Maybe ProjectColumnFilter))
+    , or : OptionalArgument (List (Maybe ProjectColumnFilter))
+    , not : OptionalArgument ProjectColumnFilter
+    }
+
+
+{-| Type alias for the `ProjectColumnFilter` attributes. Note that this type
+needs to use the `ProjectColumnFilter` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias ProjectColumnFilterRaw =
+    { id : OptionalArgument (List Fractal.ScalarCodecs.Id)
+    , name : OptionalArgument StringHashFilter
+    , has : OptionalArgument (List (Maybe Fractal.Enum.ProjectColumnHasFilter.ProjectColumnHasFilter))
+    , and : OptionalArgument (List (Maybe ProjectColumnFilter))
+    , or : OptionalArgument (List (Maybe ProjectColumnFilter))
+    , not : OptionalArgument ProjectColumnFilter
+    }
+
+
+{-| Type for the ProjectColumnFilter input object.
+-}
+type ProjectColumnFilter
+    = ProjectColumnFilter ProjectColumnFilterRaw
+
+
+{-| Encode a ProjectColumnFilter into a value that can be used as an argument.
+-}
+encodeProjectColumnFilter : ProjectColumnFilter -> Value
+encodeProjectColumnFilter (ProjectColumnFilter input____) =
+    Encode.maybeObject
+        [ ( "id", ((Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecId) |> Encode.list) |> Encode.optional input____.id ), ( "name", encodeStringHashFilter |> Encode.optional input____.name ), ( "has", (Encode.enum Fractal.Enum.ProjectColumnHasFilter.toString |> Encode.maybe |> Encode.list) |> Encode.optional input____.has ), ( "and", (encodeProjectColumnFilter |> Encode.maybe |> Encode.list) |> Encode.optional input____.and ), ( "or", (encodeProjectColumnFilter |> Encode.maybe |> Encode.list) |> Encode.optional input____.or ), ( "not", encodeProjectColumnFilter |> Encode.optional input____.not ) ]
+
+
+buildProjectColumnOrder :
+    (ProjectColumnOrderOptionalFields -> ProjectColumnOrderOptionalFields)
+    -> ProjectColumnOrder
+buildProjectColumnOrder fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { asc = Absent, desc = Absent, then_ = Absent }
+    in
+    ProjectColumnOrder { asc = optionals____.asc, desc = optionals____.desc, then_ = optionals____.then_ }
+
+
+type alias ProjectColumnOrderOptionalFields =
+    { asc : OptionalArgument Fractal.Enum.ProjectColumnOrderable.ProjectColumnOrderable
+    , desc : OptionalArgument Fractal.Enum.ProjectColumnOrderable.ProjectColumnOrderable
+    , then_ : OptionalArgument ProjectColumnOrder
+    }
+
+
+{-| Type alias for the `ProjectColumnOrder` attributes. Note that this type
+needs to use the `ProjectColumnOrder` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias ProjectColumnOrderRaw =
+    { asc : OptionalArgument Fractal.Enum.ProjectColumnOrderable.ProjectColumnOrderable
+    , desc : OptionalArgument Fractal.Enum.ProjectColumnOrderable.ProjectColumnOrderable
+    , then_ : OptionalArgument ProjectColumnOrder
+    }
+
+
+{-| Type for the ProjectColumnOrder input object.
+-}
+type ProjectColumnOrder
+    = ProjectColumnOrder ProjectColumnOrderRaw
+
+
+{-| Encode a ProjectColumnOrder into a value that can be used as an argument.
+-}
+encodeProjectColumnOrder : ProjectColumnOrder -> Value
+encodeProjectColumnOrder (ProjectColumnOrder input____) =
+    Encode.maybeObject
+        [ ( "asc", Encode.enum Fractal.Enum.ProjectColumnOrderable.toString |> Encode.optional input____.asc ), ( "desc", Encode.enum Fractal.Enum.ProjectColumnOrderable.toString |> Encode.optional input____.desc ), ( "then", encodeProjectColumnOrder |> Encode.optional input____.then_ ) ]
+
+
+buildProjectColumnPatch :
+    (ProjectColumnPatchOptionalFields -> ProjectColumnPatchOptionalFields)
+    -> ProjectColumnPatch
+buildProjectColumnPatch fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { name = Absent, about = Absent, pos = Absent, tensions = Absent, project = Absent }
+    in
+    ProjectColumnPatch { name = optionals____.name, about = optionals____.about, pos = optionals____.pos, tensions = optionals____.tensions, project = optionals____.project }
+
+
+type alias ProjectColumnPatchOptionalFields =
+    { name : OptionalArgument String
+    , about : OptionalArgument String
+    , pos : OptionalArgument Int
+    , tensions : OptionalArgument (List ProjectTensionRef)
+    , project : OptionalArgument ProjectRef
+    }
+
+
+{-| Type alias for the `ProjectColumnPatch` attributes. Note that this type
+needs to use the `ProjectColumnPatch` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias ProjectColumnPatchRaw =
+    { name : OptionalArgument String
+    , about : OptionalArgument String
+    , pos : OptionalArgument Int
+    , tensions : OptionalArgument (List ProjectTensionRef)
+    , project : OptionalArgument ProjectRef
+    }
+
+
+{-| Type for the ProjectColumnPatch input object.
+-}
+type ProjectColumnPatch
+    = ProjectColumnPatch ProjectColumnPatchRaw
+
+
+{-| Encode a ProjectColumnPatch into a value that can be used as an argument.
+-}
+encodeProjectColumnPatch : ProjectColumnPatch -> Value
+encodeProjectColumnPatch (ProjectColumnPatch input____) =
+    Encode.maybeObject
+        [ ( "name", Encode.string |> Encode.optional input____.name ), ( "about", Encode.string |> Encode.optional input____.about ), ( "pos", Encode.int |> Encode.optional input____.pos ), ( "tensions", (encodeProjectTensionRef |> Encode.list) |> Encode.optional input____.tensions ), ( "project", encodeProjectRef |> Encode.optional input____.project ) ]
+
+
+buildProjectColumnRef :
+    (ProjectColumnRefOptionalFields -> ProjectColumnRefOptionalFields)
+    -> ProjectColumnRef
+buildProjectColumnRef fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { id = Absent, name = Absent, about = Absent, pos = Absent, tensions = Absent, project = Absent }
+    in
+    ProjectColumnRef { id = optionals____.id, name = optionals____.name, about = optionals____.about, pos = optionals____.pos, tensions = optionals____.tensions, project = optionals____.project }
+
+
+type alias ProjectColumnRefOptionalFields =
+    { id : OptionalArgument Fractal.ScalarCodecs.Id
+    , name : OptionalArgument String
+    , about : OptionalArgument String
+    , pos : OptionalArgument Int
+    , tensions : OptionalArgument (List ProjectTensionRef)
+    , project : OptionalArgument ProjectRef
+    }
+
+
+{-| Type alias for the `ProjectColumnRef` attributes. Note that this type
+needs to use the `ProjectColumnRef` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias ProjectColumnRefRaw =
+    { id : OptionalArgument Fractal.ScalarCodecs.Id
+    , name : OptionalArgument String
+    , about : OptionalArgument String
+    , pos : OptionalArgument Int
+    , tensions : OptionalArgument (List ProjectTensionRef)
+    , project : OptionalArgument ProjectRef
+    }
+
+
+{-| Type for the ProjectColumnRef input object.
+-}
+type ProjectColumnRef
+    = ProjectColumnRef ProjectColumnRefRaw
+
+
+{-| Encode a ProjectColumnRef into a value that can be used as an argument.
+-}
+encodeProjectColumnRef : ProjectColumnRef -> Value
+encodeProjectColumnRef (ProjectColumnRef input____) =
+    Encode.maybeObject
+        [ ( "id", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecId) |> Encode.optional input____.id ), ( "name", Encode.string |> Encode.optional input____.name ), ( "about", Encode.string |> Encode.optional input____.about ), ( "pos", Encode.int |> Encode.optional input____.pos ), ( "tensions", (encodeProjectTensionRef |> Encode.list) |> Encode.optional input____.tensions ), ( "project", encodeProjectRef |> Encode.optional input____.project ) ]
+
+
+buildProjectFilter :
+    (ProjectFilterOptionalFields -> ProjectFilterOptionalFields)
+    -> ProjectFilter
+buildProjectFilter fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { id = Absent, rootnameid = Absent, nameid = Absent, name = Absent, has = Absent, and = Absent, or = Absent, not = Absent }
+    in
+    ProjectFilter { id = optionals____.id, rootnameid = optionals____.rootnameid, nameid = optionals____.nameid, name = optionals____.name, has = optionals____.has, and = optionals____.and, or = optionals____.or, not = optionals____.not }
+
+
+type alias ProjectFilterOptionalFields =
+    { id : OptionalArgument (List Fractal.ScalarCodecs.Id)
+    , rootnameid : OptionalArgument StringHashFilter
+    , nameid : OptionalArgument StringHashFilter
+    , name : OptionalArgument StringHashFilter_StringTermFilter
+    , has : OptionalArgument (List (Maybe Fractal.Enum.ProjectHasFilter.ProjectHasFilter))
+    , and : OptionalArgument (List (Maybe ProjectFilter))
+    , or : OptionalArgument (List (Maybe ProjectFilter))
+    , not : OptionalArgument ProjectFilter
+    }
+
+
+{-| Type alias for the `ProjectFilter` attributes. Note that this type
+needs to use the `ProjectFilter` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias ProjectFilterRaw =
+    { id : OptionalArgument (List Fractal.ScalarCodecs.Id)
+    , rootnameid : OptionalArgument StringHashFilter
+    , nameid : OptionalArgument StringHashFilter
+    , name : OptionalArgument StringHashFilter_StringTermFilter
+    , has : OptionalArgument (List (Maybe Fractal.Enum.ProjectHasFilter.ProjectHasFilter))
+    , and : OptionalArgument (List (Maybe ProjectFilter))
+    , or : OptionalArgument (List (Maybe ProjectFilter))
+    , not : OptionalArgument ProjectFilter
+    }
+
+
+{-| Type for the ProjectFilter input object.
+-}
+type ProjectFilter
+    = ProjectFilter ProjectFilterRaw
+
+
+{-| Encode a ProjectFilter into a value that can be used as an argument.
+-}
+encodeProjectFilter : ProjectFilter -> Value
+encodeProjectFilter (ProjectFilter input____) =
+    Encode.maybeObject
+        [ ( "id", ((Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecId) |> Encode.list) |> Encode.optional input____.id ), ( "rootnameid", encodeStringHashFilter |> Encode.optional input____.rootnameid ), ( "nameid", encodeStringHashFilter |> Encode.optional input____.nameid ), ( "name", encodeStringHashFilter_StringTermFilter |> Encode.optional input____.name ), ( "has", (Encode.enum Fractal.Enum.ProjectHasFilter.toString |> Encode.maybe |> Encode.list) |> Encode.optional input____.has ), ( "and", (encodeProjectFilter |> Encode.maybe |> Encode.list) |> Encode.optional input____.and ), ( "or", (encodeProjectFilter |> Encode.maybe |> Encode.list) |> Encode.optional input____.or ), ( "not", encodeProjectFilter |> Encode.optional input____.not ) ]
+
+
+buildProjectOrder :
+    (ProjectOrderOptionalFields -> ProjectOrderOptionalFields)
+    -> ProjectOrder
+buildProjectOrder fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { asc = Absent, desc = Absent, then_ = Absent }
+    in
+    ProjectOrder { asc = optionals____.asc, desc = optionals____.desc, then_ = optionals____.then_ }
+
+
+type alias ProjectOrderOptionalFields =
+    { asc : OptionalArgument Fractal.Enum.ProjectOrderable.ProjectOrderable
+    , desc : OptionalArgument Fractal.Enum.ProjectOrderable.ProjectOrderable
+    , then_ : OptionalArgument ProjectOrder
+    }
+
+
+{-| Type alias for the `ProjectOrder` attributes. Note that this type
+needs to use the `ProjectOrder` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias ProjectOrderRaw =
+    { asc : OptionalArgument Fractal.Enum.ProjectOrderable.ProjectOrderable
+    , desc : OptionalArgument Fractal.Enum.ProjectOrderable.ProjectOrderable
+    , then_ : OptionalArgument ProjectOrder
+    }
+
+
+{-| Type for the ProjectOrder input object.
+-}
+type ProjectOrder
+    = ProjectOrder ProjectOrderRaw
+
+
+{-| Encode a ProjectOrder into a value that can be used as an argument.
+-}
+encodeProjectOrder : ProjectOrder -> Value
+encodeProjectOrder (ProjectOrder input____) =
+    Encode.maybeObject
+        [ ( "asc", Encode.enum Fractal.Enum.ProjectOrderable.toString |> Encode.optional input____.asc ), ( "desc", Encode.enum Fractal.Enum.ProjectOrderable.toString |> Encode.optional input____.desc ), ( "then", encodeProjectOrder |> Encode.optional input____.then_ ) ]
+
+
+buildProjectPatch :
+    (ProjectPatchOptionalFields -> ProjectPatchOptionalFields)
+    -> ProjectPatch
+buildProjectPatch fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { rootnameid = Absent, parentnameid = Absent, nameid = Absent, name = Absent, about = Absent, columns = Absent, leaders = Absent, nodes = Absent }
+    in
+    ProjectPatch { rootnameid = optionals____.rootnameid, parentnameid = optionals____.parentnameid, nameid = optionals____.nameid, name = optionals____.name, about = optionals____.about, columns = optionals____.columns, leaders = optionals____.leaders, nodes = optionals____.nodes }
+
+
+type alias ProjectPatchOptionalFields =
+    { rootnameid : OptionalArgument String
+    , parentnameid : OptionalArgument String
+    , nameid : OptionalArgument String
+    , name : OptionalArgument String
+    , about : OptionalArgument String
+    , columns : OptionalArgument (List ProjectColumnRef)
+    , leaders : OptionalArgument (List NodeRef)
+    , nodes : OptionalArgument (List NodeRef)
+    }
+
+
+{-| Type alias for the `ProjectPatch` attributes. Note that this type
+needs to use the `ProjectPatch` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias ProjectPatchRaw =
+    { rootnameid : OptionalArgument String
+    , parentnameid : OptionalArgument String
+    , nameid : OptionalArgument String
+    , name : OptionalArgument String
+    , about : OptionalArgument String
+    , columns : OptionalArgument (List ProjectColumnRef)
+    , leaders : OptionalArgument (List NodeRef)
+    , nodes : OptionalArgument (List NodeRef)
+    }
+
+
+{-| Type for the ProjectPatch input object.
+-}
+type ProjectPatch
+    = ProjectPatch ProjectPatchRaw
+
+
+{-| Encode a ProjectPatch into a value that can be used as an argument.
+-}
+encodeProjectPatch : ProjectPatch -> Value
+encodeProjectPatch (ProjectPatch input____) =
+    Encode.maybeObject
+        [ ( "rootnameid", Encode.string |> Encode.optional input____.rootnameid ), ( "parentnameid", Encode.string |> Encode.optional input____.parentnameid ), ( "nameid", Encode.string |> Encode.optional input____.nameid ), ( "name", Encode.string |> Encode.optional input____.name ), ( "about", Encode.string |> Encode.optional input____.about ), ( "columns", (encodeProjectColumnRef |> Encode.list) |> Encode.optional input____.columns ), ( "leaders", (encodeNodeRef |> Encode.list) |> Encode.optional input____.leaders ), ( "nodes", (encodeNodeRef |> Encode.list) |> Encode.optional input____.nodes ) ]
+
+
+buildProjectRef :
+    (ProjectRefOptionalFields -> ProjectRefOptionalFields)
+    -> ProjectRef
+buildProjectRef fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { id = Absent, rootnameid = Absent, parentnameid = Absent, nameid = Absent, name = Absent, about = Absent, columns = Absent, leaders = Absent, nodes = Absent }
+    in
+    ProjectRef { id = optionals____.id, rootnameid = optionals____.rootnameid, parentnameid = optionals____.parentnameid, nameid = optionals____.nameid, name = optionals____.name, about = optionals____.about, columns = optionals____.columns, leaders = optionals____.leaders, nodes = optionals____.nodes }
+
+
+type alias ProjectRefOptionalFields =
+    { id : OptionalArgument Fractal.ScalarCodecs.Id
+    , rootnameid : OptionalArgument String
+    , parentnameid : OptionalArgument String
+    , nameid : OptionalArgument String
+    , name : OptionalArgument String
+    , about : OptionalArgument String
+    , columns : OptionalArgument (List ProjectColumnRef)
+    , leaders : OptionalArgument (List NodeRef)
+    , nodes : OptionalArgument (List NodeRef)
+    }
+
+
+{-| Type alias for the `ProjectRef` attributes. Note that this type
+needs to use the `ProjectRef` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias ProjectRefRaw =
+    { id : OptionalArgument Fractal.ScalarCodecs.Id
+    , rootnameid : OptionalArgument String
+    , parentnameid : OptionalArgument String
+    , nameid : OptionalArgument String
+    , name : OptionalArgument String
+    , about : OptionalArgument String
+    , columns : OptionalArgument (List ProjectColumnRef)
+    , leaders : OptionalArgument (List NodeRef)
+    , nodes : OptionalArgument (List NodeRef)
+    }
+
+
+{-| Type for the ProjectRef input object.
+-}
+type ProjectRef
+    = ProjectRef ProjectRefRaw
+
+
+{-| Encode a ProjectRef into a value that can be used as an argument.
+-}
+encodeProjectRef : ProjectRef -> Value
+encodeProjectRef (ProjectRef input____) =
+    Encode.maybeObject
+        [ ( "id", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecId) |> Encode.optional input____.id ), ( "rootnameid", Encode.string |> Encode.optional input____.rootnameid ), ( "parentnameid", Encode.string |> Encode.optional input____.parentnameid ), ( "nameid", Encode.string |> Encode.optional input____.nameid ), ( "name", Encode.string |> Encode.optional input____.name ), ( "about", Encode.string |> Encode.optional input____.about ), ( "columns", (encodeProjectColumnRef |> Encode.list) |> Encode.optional input____.columns ), ( "leaders", (encodeNodeRef |> Encode.list) |> Encode.optional input____.leaders ), ( "nodes", (encodeNodeRef |> Encode.list) |> Encode.optional input____.nodes ) ]
+
+
+buildProjectTensionFilter :
+    (ProjectTensionFilterOptionalFields -> ProjectTensionFilterOptionalFields)
+    -> ProjectTensionFilter
+buildProjectTensionFilter fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { id = Absent, has = Absent, and = Absent, or = Absent, not = Absent }
+    in
+    ProjectTensionFilter { id = optionals____.id, has = optionals____.has, and = optionals____.and, or = optionals____.or, not = optionals____.not }
+
+
+type alias ProjectTensionFilterOptionalFields =
+    { id : OptionalArgument (List Fractal.ScalarCodecs.Id)
+    , has : OptionalArgument (List (Maybe Fractal.Enum.ProjectTensionHasFilter.ProjectTensionHasFilter))
+    , and : OptionalArgument (List (Maybe ProjectTensionFilter))
+    , or : OptionalArgument (List (Maybe ProjectTensionFilter))
+    , not : OptionalArgument ProjectTensionFilter
+    }
+
+
+{-| Type alias for the `ProjectTensionFilter` attributes. Note that this type
+needs to use the `ProjectTensionFilter` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias ProjectTensionFilterRaw =
+    { id : OptionalArgument (List Fractal.ScalarCodecs.Id)
+    , has : OptionalArgument (List (Maybe Fractal.Enum.ProjectTensionHasFilter.ProjectTensionHasFilter))
+    , and : OptionalArgument (List (Maybe ProjectTensionFilter))
+    , or : OptionalArgument (List (Maybe ProjectTensionFilter))
+    , not : OptionalArgument ProjectTensionFilter
+    }
+
+
+{-| Type for the ProjectTensionFilter input object.
+-}
+type ProjectTensionFilter
+    = ProjectTensionFilter ProjectTensionFilterRaw
+
+
+{-| Encode a ProjectTensionFilter into a value that can be used as an argument.
+-}
+encodeProjectTensionFilter : ProjectTensionFilter -> Value
+encodeProjectTensionFilter (ProjectTensionFilter input____) =
+    Encode.maybeObject
+        [ ( "id", ((Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecId) |> Encode.list) |> Encode.optional input____.id ), ( "has", (Encode.enum Fractal.Enum.ProjectTensionHasFilter.toString |> Encode.maybe |> Encode.list) |> Encode.optional input____.has ), ( "and", (encodeProjectTensionFilter |> Encode.maybe |> Encode.list) |> Encode.optional input____.and ), ( "or", (encodeProjectTensionFilter |> Encode.maybe |> Encode.list) |> Encode.optional input____.or ), ( "not", encodeProjectTensionFilter |> Encode.optional input____.not ) ]
+
+
+buildProjectTensionOrder :
+    (ProjectTensionOrderOptionalFields -> ProjectTensionOrderOptionalFields)
+    -> ProjectTensionOrder
+buildProjectTensionOrder fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { asc = Absent, desc = Absent, then_ = Absent }
+    in
+    ProjectTensionOrder { asc = optionals____.asc, desc = optionals____.desc, then_ = optionals____.then_ }
+
+
+type alias ProjectTensionOrderOptionalFields =
+    { asc : OptionalArgument Fractal.Enum.ProjectTensionOrderable.ProjectTensionOrderable
+    , desc : OptionalArgument Fractal.Enum.ProjectTensionOrderable.ProjectTensionOrderable
+    , then_ : OptionalArgument ProjectTensionOrder
+    }
+
+
+{-| Type alias for the `ProjectTensionOrder` attributes. Note that this type
+needs to use the `ProjectTensionOrder` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias ProjectTensionOrderRaw =
+    { asc : OptionalArgument Fractal.Enum.ProjectTensionOrderable.ProjectTensionOrderable
+    , desc : OptionalArgument Fractal.Enum.ProjectTensionOrderable.ProjectTensionOrderable
+    , then_ : OptionalArgument ProjectTensionOrder
+    }
+
+
+{-| Type for the ProjectTensionOrder input object.
+-}
+type ProjectTensionOrder
+    = ProjectTensionOrder ProjectTensionOrderRaw
+
+
+{-| Encode a ProjectTensionOrder into a value that can be used as an argument.
+-}
+encodeProjectTensionOrder : ProjectTensionOrder -> Value
+encodeProjectTensionOrder (ProjectTensionOrder input____) =
+    Encode.maybeObject
+        [ ( "asc", Encode.enum Fractal.Enum.ProjectTensionOrderable.toString |> Encode.optional input____.asc ), ( "desc", Encode.enum Fractal.Enum.ProjectTensionOrderable.toString |> Encode.optional input____.desc ), ( "then", encodeProjectTensionOrder |> Encode.optional input____.then_ ) ]
+
+
+buildProjectTensionPatch :
+    (ProjectTensionPatchOptionalFields -> ProjectTensionPatchOptionalFields)
+    -> ProjectTensionPatch
+buildProjectTensionPatch fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { tension = Absent, pos = Absent, pc = Absent }
+    in
+    ProjectTensionPatch { tension = optionals____.tension, pos = optionals____.pos, pc = optionals____.pc }
+
+
+type alias ProjectTensionPatchOptionalFields =
+    { tension : OptionalArgument TensionRef
+    , pos : OptionalArgument Int
+    , pc : OptionalArgument ProjectColumnRef
+    }
+
+
+{-| Type alias for the `ProjectTensionPatch` attributes. Note that this type
+needs to use the `ProjectTensionPatch` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias ProjectTensionPatchRaw =
+    { tension : OptionalArgument TensionRef
+    , pos : OptionalArgument Int
+    , pc : OptionalArgument ProjectColumnRef
+    }
+
+
+{-| Type for the ProjectTensionPatch input object.
+-}
+type ProjectTensionPatch
+    = ProjectTensionPatch ProjectTensionPatchRaw
+
+
+{-| Encode a ProjectTensionPatch into a value that can be used as an argument.
+-}
+encodeProjectTensionPatch : ProjectTensionPatch -> Value
+encodeProjectTensionPatch (ProjectTensionPatch input____) =
+    Encode.maybeObject
+        [ ( "tension", encodeTensionRef |> Encode.optional input____.tension ), ( "pos", Encode.int |> Encode.optional input____.pos ), ( "pc", encodeProjectColumnRef |> Encode.optional input____.pc ) ]
+
+
+buildProjectTensionRef :
+    (ProjectTensionRefOptionalFields -> ProjectTensionRefOptionalFields)
+    -> ProjectTensionRef
+buildProjectTensionRef fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { id = Absent, tension = Absent, pos = Absent, pc = Absent }
+    in
+    ProjectTensionRef { id = optionals____.id, tension = optionals____.tension, pos = optionals____.pos, pc = optionals____.pc }
+
+
+type alias ProjectTensionRefOptionalFields =
+    { id : OptionalArgument Fractal.ScalarCodecs.Id
+    , tension : OptionalArgument TensionRef
+    , pos : OptionalArgument Int
+    , pc : OptionalArgument ProjectColumnRef
+    }
+
+
+{-| Type alias for the `ProjectTensionRef` attributes. Note that this type
+needs to use the `ProjectTensionRef` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias ProjectTensionRefRaw =
+    { id : OptionalArgument Fractal.ScalarCodecs.Id
+    , tension : OptionalArgument TensionRef
+    , pos : OptionalArgument Int
+    , pc : OptionalArgument ProjectColumnRef
+    }
+
+
+{-| Type for the ProjectTensionRef input object.
+-}
+type ProjectTensionRef
+    = ProjectTensionRef ProjectTensionRefRaw
+
+
+{-| Encode a ProjectTensionRef into a value that can be used as an argument.
+-}
+encodeProjectTensionRef : ProjectTensionRef -> Value
+encodeProjectTensionRef (ProjectTensionRef input____) =
+    Encode.maybeObject
+        [ ( "id", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecId) |> Encode.optional input____.id ), ( "tension", encodeTensionRef |> Encode.optional input____.tension ), ( "pos", Encode.int |> Encode.optional input____.pos ), ( "pc", encodeProjectColumnRef |> Encode.optional input____.pc ) ]
+
+
 buildReactionFilter :
     (ReactionFilterOptionalFields -> ReactionFilterOptionalFields)
     -> ReactionFilter
@@ -6072,9 +6834,9 @@ buildTensionPatch fillOptionals____ =
     let
         optionals____ =
             fillOptionals____
-                { createdBy = Absent, createdAt = Absent, updatedAt = Absent, message = Absent, emitter = Absent, emitterid = Absent, receiver = Absent, receiverid = Absent, title = Absent, type_ = Absent, status = Absent, action = Absent, assignees = Absent, labels = Absent, comments = Absent, blobs = Absent, history = Absent, mentions = Absent, contracts = Absent, subscribers = Absent, n_comments = Absent, n_open_contracts = Absent }
+                { createdBy = Absent, createdAt = Absent, updatedAt = Absent, message = Absent, emitter = Absent, emitterid = Absent, receiver = Absent, receiverid = Absent, title = Absent, type_ = Absent, status = Absent, action = Absent, assignees = Absent, labels = Absent, comments = Absent, blobs = Absent, history = Absent, mentions = Absent, contracts = Absent, subscribers = Absent, projects = Absent, n_comments = Absent, n_open_contracts = Absent }
     in
-    TensionPatch { createdBy = optionals____.createdBy, createdAt = optionals____.createdAt, updatedAt = optionals____.updatedAt, message = optionals____.message, emitter = optionals____.emitter, emitterid = optionals____.emitterid, receiver = optionals____.receiver, receiverid = optionals____.receiverid, title = optionals____.title, type_ = optionals____.type_, status = optionals____.status, action = optionals____.action, assignees = optionals____.assignees, labels = optionals____.labels, comments = optionals____.comments, blobs = optionals____.blobs, history = optionals____.history, mentions = optionals____.mentions, contracts = optionals____.contracts, subscribers = optionals____.subscribers, n_comments = optionals____.n_comments, n_open_contracts = optionals____.n_open_contracts }
+    TensionPatch { createdBy = optionals____.createdBy, createdAt = optionals____.createdAt, updatedAt = optionals____.updatedAt, message = optionals____.message, emitter = optionals____.emitter, emitterid = optionals____.emitterid, receiver = optionals____.receiver, receiverid = optionals____.receiverid, title = optionals____.title, type_ = optionals____.type_, status = optionals____.status, action = optionals____.action, assignees = optionals____.assignees, labels = optionals____.labels, comments = optionals____.comments, blobs = optionals____.blobs, history = optionals____.history, mentions = optionals____.mentions, contracts = optionals____.contracts, subscribers = optionals____.subscribers, projects = optionals____.projects, n_comments = optionals____.n_comments, n_open_contracts = optionals____.n_open_contracts }
 
 
 type alias TensionPatchOptionalFields =
@@ -6098,6 +6860,7 @@ type alias TensionPatchOptionalFields =
     , mentions : OptionalArgument (List EventRef)
     , contracts : OptionalArgument (List ContractRef)
     , subscribers : OptionalArgument (List UserRef)
+    , projects : OptionalArgument (List ProjectTensionRef)
     , n_comments : OptionalArgument Int
     , n_open_contracts : OptionalArgument Int
     }
@@ -6129,6 +6892,7 @@ type alias TensionPatchRaw =
     , mentions : OptionalArgument (List EventRef)
     , contracts : OptionalArgument (List ContractRef)
     , subscribers : OptionalArgument (List UserRef)
+    , projects : OptionalArgument (List ProjectTensionRef)
     , n_comments : OptionalArgument Int
     , n_open_contracts : OptionalArgument Int
     }
@@ -6145,7 +6909,7 @@ type TensionPatch
 encodeTensionPatch : TensionPatch -> Value
 encodeTensionPatch (TensionPatch input____) =
     Encode.maybeObject
-        [ ( "createdBy", encodeUserRef |> Encode.optional input____.createdBy ), ( "createdAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.createdAt ), ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "message", Encode.string |> Encode.optional input____.message ), ( "emitter", encodeNodeRef |> Encode.optional input____.emitter ), ( "emitterid", Encode.string |> Encode.optional input____.emitterid ), ( "receiver", encodeNodeRef |> Encode.optional input____.receiver ), ( "receiverid", Encode.string |> Encode.optional input____.receiverid ), ( "title", Encode.string |> Encode.optional input____.title ), ( "type_", Encode.enum Fractal.Enum.TensionType.toString |> Encode.optional input____.type_ ), ( "status", Encode.enum Fractal.Enum.TensionStatus.toString |> Encode.optional input____.status ), ( "action", Encode.enum Fractal.Enum.TensionAction.toString |> Encode.optional input____.action ), ( "assignees", (encodeUserRef |> Encode.list) |> Encode.optional input____.assignees ), ( "labels", (encodeLabelRef |> Encode.list) |> Encode.optional input____.labels ), ( "comments", (encodeCommentRef |> Encode.list) |> Encode.optional input____.comments ), ( "blobs", (encodeBlobRef |> Encode.list) |> Encode.optional input____.blobs ), ( "history", (encodeEventRef |> Encode.list) |> Encode.optional input____.history ), ( "mentions", (encodeEventRef |> Encode.list) |> Encode.optional input____.mentions ), ( "contracts", (encodeContractRef |> Encode.list) |> Encode.optional input____.contracts ), ( "subscribers", (encodeUserRef |> Encode.list) |> Encode.optional input____.subscribers ), ( "n_comments", Encode.int |> Encode.optional input____.n_comments ), ( "n_open_contracts", Encode.int |> Encode.optional input____.n_open_contracts ) ]
+        [ ( "createdBy", encodeUserRef |> Encode.optional input____.createdBy ), ( "createdAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.createdAt ), ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "message", Encode.string |> Encode.optional input____.message ), ( "emitter", encodeNodeRef |> Encode.optional input____.emitter ), ( "emitterid", Encode.string |> Encode.optional input____.emitterid ), ( "receiver", encodeNodeRef |> Encode.optional input____.receiver ), ( "receiverid", Encode.string |> Encode.optional input____.receiverid ), ( "title", Encode.string |> Encode.optional input____.title ), ( "type_", Encode.enum Fractal.Enum.TensionType.toString |> Encode.optional input____.type_ ), ( "status", Encode.enum Fractal.Enum.TensionStatus.toString |> Encode.optional input____.status ), ( "action", Encode.enum Fractal.Enum.TensionAction.toString |> Encode.optional input____.action ), ( "assignees", (encodeUserRef |> Encode.list) |> Encode.optional input____.assignees ), ( "labels", (encodeLabelRef |> Encode.list) |> Encode.optional input____.labels ), ( "comments", (encodeCommentRef |> Encode.list) |> Encode.optional input____.comments ), ( "blobs", (encodeBlobRef |> Encode.list) |> Encode.optional input____.blobs ), ( "history", (encodeEventRef |> Encode.list) |> Encode.optional input____.history ), ( "mentions", (encodeEventRef |> Encode.list) |> Encode.optional input____.mentions ), ( "contracts", (encodeContractRef |> Encode.list) |> Encode.optional input____.contracts ), ( "subscribers", (encodeUserRef |> Encode.list) |> Encode.optional input____.subscribers ), ( "projects", (encodeProjectTensionRef |> Encode.list) |> Encode.optional input____.projects ), ( "n_comments", Encode.int |> Encode.optional input____.n_comments ), ( "n_open_contracts", Encode.int |> Encode.optional input____.n_open_contracts ) ]
 
 
 buildTensionRef :
@@ -6155,9 +6919,9 @@ buildTensionRef fillOptionals____ =
     let
         optionals____ =
             fillOptionals____
-                { id = Absent, createdBy = Absent, createdAt = Absent, updatedAt = Absent, message = Absent, emitter = Absent, emitterid = Absent, receiver = Absent, receiverid = Absent, title = Absent, type_ = Absent, status = Absent, action = Absent, assignees = Absent, labels = Absent, comments = Absent, blobs = Absent, history = Absent, mentions = Absent, contracts = Absent, subscribers = Absent, n_comments = Absent, n_open_contracts = Absent }
+                { id = Absent, createdBy = Absent, createdAt = Absent, updatedAt = Absent, message = Absent, emitter = Absent, emitterid = Absent, receiver = Absent, receiverid = Absent, title = Absent, type_ = Absent, status = Absent, action = Absent, assignees = Absent, labels = Absent, comments = Absent, blobs = Absent, history = Absent, mentions = Absent, contracts = Absent, subscribers = Absent, projects = Absent, n_comments = Absent, n_open_contracts = Absent }
     in
-    TensionRef { id = optionals____.id, createdBy = optionals____.createdBy, createdAt = optionals____.createdAt, updatedAt = optionals____.updatedAt, message = optionals____.message, emitter = optionals____.emitter, emitterid = optionals____.emitterid, receiver = optionals____.receiver, receiverid = optionals____.receiverid, title = optionals____.title, type_ = optionals____.type_, status = optionals____.status, action = optionals____.action, assignees = optionals____.assignees, labels = optionals____.labels, comments = optionals____.comments, blobs = optionals____.blobs, history = optionals____.history, mentions = optionals____.mentions, contracts = optionals____.contracts, subscribers = optionals____.subscribers, n_comments = optionals____.n_comments, n_open_contracts = optionals____.n_open_contracts }
+    TensionRef { id = optionals____.id, createdBy = optionals____.createdBy, createdAt = optionals____.createdAt, updatedAt = optionals____.updatedAt, message = optionals____.message, emitter = optionals____.emitter, emitterid = optionals____.emitterid, receiver = optionals____.receiver, receiverid = optionals____.receiverid, title = optionals____.title, type_ = optionals____.type_, status = optionals____.status, action = optionals____.action, assignees = optionals____.assignees, labels = optionals____.labels, comments = optionals____.comments, blobs = optionals____.blobs, history = optionals____.history, mentions = optionals____.mentions, contracts = optionals____.contracts, subscribers = optionals____.subscribers, projects = optionals____.projects, n_comments = optionals____.n_comments, n_open_contracts = optionals____.n_open_contracts }
 
 
 type alias TensionRefOptionalFields =
@@ -6182,6 +6946,7 @@ type alias TensionRefOptionalFields =
     , mentions : OptionalArgument (List EventRef)
     , contracts : OptionalArgument (List ContractRef)
     , subscribers : OptionalArgument (List UserRef)
+    , projects : OptionalArgument (List ProjectTensionRef)
     , n_comments : OptionalArgument Int
     , n_open_contracts : OptionalArgument Int
     }
@@ -6214,6 +6979,7 @@ type alias TensionRefRaw =
     , mentions : OptionalArgument (List EventRef)
     , contracts : OptionalArgument (List ContractRef)
     , subscribers : OptionalArgument (List UserRef)
+    , projects : OptionalArgument (List ProjectTensionRef)
     , n_comments : OptionalArgument Int
     , n_open_contracts : OptionalArgument Int
     }
@@ -6230,7 +6996,7 @@ type TensionRef
 encodeTensionRef : TensionRef -> Value
 encodeTensionRef (TensionRef input____) =
     Encode.maybeObject
-        [ ( "id", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecId) |> Encode.optional input____.id ), ( "createdBy", encodeUserRef |> Encode.optional input____.createdBy ), ( "createdAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.createdAt ), ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "message", Encode.string |> Encode.optional input____.message ), ( "emitter", encodeNodeRef |> Encode.optional input____.emitter ), ( "emitterid", Encode.string |> Encode.optional input____.emitterid ), ( "receiver", encodeNodeRef |> Encode.optional input____.receiver ), ( "receiverid", Encode.string |> Encode.optional input____.receiverid ), ( "title", Encode.string |> Encode.optional input____.title ), ( "type_", Encode.enum Fractal.Enum.TensionType.toString |> Encode.optional input____.type_ ), ( "status", Encode.enum Fractal.Enum.TensionStatus.toString |> Encode.optional input____.status ), ( "action", Encode.enum Fractal.Enum.TensionAction.toString |> Encode.optional input____.action ), ( "assignees", (encodeUserRef |> Encode.list) |> Encode.optional input____.assignees ), ( "labels", (encodeLabelRef |> Encode.list) |> Encode.optional input____.labels ), ( "comments", (encodeCommentRef |> Encode.list) |> Encode.optional input____.comments ), ( "blobs", (encodeBlobRef |> Encode.list) |> Encode.optional input____.blobs ), ( "history", (encodeEventRef |> Encode.list) |> Encode.optional input____.history ), ( "mentions", (encodeEventRef |> Encode.list) |> Encode.optional input____.mentions ), ( "contracts", (encodeContractRef |> Encode.list) |> Encode.optional input____.contracts ), ( "subscribers", (encodeUserRef |> Encode.list) |> Encode.optional input____.subscribers ), ( "n_comments", Encode.int |> Encode.optional input____.n_comments ), ( "n_open_contracts", Encode.int |> Encode.optional input____.n_open_contracts ) ]
+        [ ( "id", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecId) |> Encode.optional input____.id ), ( "createdBy", encodeUserRef |> Encode.optional input____.createdBy ), ( "createdAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.createdAt ), ( "updatedAt", (Fractal.ScalarCodecs.codecs |> Fractal.Scalar.unwrapEncoder .codecDateTime) |> Encode.optional input____.updatedAt ), ( "message", Encode.string |> Encode.optional input____.message ), ( "emitter", encodeNodeRef |> Encode.optional input____.emitter ), ( "emitterid", Encode.string |> Encode.optional input____.emitterid ), ( "receiver", encodeNodeRef |> Encode.optional input____.receiver ), ( "receiverid", Encode.string |> Encode.optional input____.receiverid ), ( "title", Encode.string |> Encode.optional input____.title ), ( "type_", Encode.enum Fractal.Enum.TensionType.toString |> Encode.optional input____.type_ ), ( "status", Encode.enum Fractal.Enum.TensionStatus.toString |> Encode.optional input____.status ), ( "action", Encode.enum Fractal.Enum.TensionAction.toString |> Encode.optional input____.action ), ( "assignees", (encodeUserRef |> Encode.list) |> Encode.optional input____.assignees ), ( "labels", (encodeLabelRef |> Encode.list) |> Encode.optional input____.labels ), ( "comments", (encodeCommentRef |> Encode.list) |> Encode.optional input____.comments ), ( "blobs", (encodeBlobRef |> Encode.list) |> Encode.optional input____.blobs ), ( "history", (encodeEventRef |> Encode.list) |> Encode.optional input____.history ), ( "mentions", (encodeEventRef |> Encode.list) |> Encode.optional input____.mentions ), ( "contracts", (encodeContractRef |> Encode.list) |> Encode.optional input____.contracts ), ( "subscribers", (encodeUserRef |> Encode.list) |> Encode.optional input____.subscribers ), ( "projects", (encodeProjectTensionRef |> Encode.list) |> Encode.optional input____.projects ), ( "n_comments", Encode.int |> Encode.optional input____.n_comments ), ( "n_open_contracts", Encode.int |> Encode.optional input____.n_open_contracts ) ]
 
 
 buildTensionStatus_hash :
@@ -6985,6 +7751,153 @@ encodeUpdatePostInput : UpdatePostInput -> Value
 encodeUpdatePostInput (UpdatePostInput input____) =
     Encode.maybeObject
         [ ( "filter", encodePostFilter input____.filter |> Just ), ( "set", encodePostPatch |> Encode.optional input____.set ), ( "remove", encodePostPatch |> Encode.optional input____.remove ) ]
+
+
+buildUpdateProjectColumnInput :
+    UpdateProjectColumnInputRequiredFields
+    -> (UpdateProjectColumnInputOptionalFields -> UpdateProjectColumnInputOptionalFields)
+    -> UpdateProjectColumnInput
+buildUpdateProjectColumnInput required____ fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { set = Absent, remove = Absent }
+    in
+    UpdateProjectColumnInput { filter = required____.filter, set = optionals____.set, remove = optionals____.remove }
+
+
+type alias UpdateProjectColumnInputRequiredFields =
+    { filter : ProjectColumnFilter }
+
+
+type alias UpdateProjectColumnInputOptionalFields =
+    { set : OptionalArgument ProjectColumnPatch
+    , remove : OptionalArgument ProjectColumnPatch
+    }
+
+
+{-| Type alias for the `UpdateProjectColumnInput` attributes. Note that this type
+needs to use the `UpdateProjectColumnInput` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias UpdateProjectColumnInputRaw =
+    { filter : ProjectColumnFilter
+    , set : OptionalArgument ProjectColumnPatch
+    , remove : OptionalArgument ProjectColumnPatch
+    }
+
+
+{-| Type for the UpdateProjectColumnInput input object.
+-}
+type UpdateProjectColumnInput
+    = UpdateProjectColumnInput UpdateProjectColumnInputRaw
+
+
+{-| Encode a UpdateProjectColumnInput into a value that can be used as an argument.
+-}
+encodeUpdateProjectColumnInput : UpdateProjectColumnInput -> Value
+encodeUpdateProjectColumnInput (UpdateProjectColumnInput input____) =
+    Encode.maybeObject
+        [ ( "filter", encodeProjectColumnFilter input____.filter |> Just ), ( "set", encodeProjectColumnPatch |> Encode.optional input____.set ), ( "remove", encodeProjectColumnPatch |> Encode.optional input____.remove ) ]
+
+
+buildUpdateProjectInput :
+    UpdateProjectInputRequiredFields
+    -> (UpdateProjectInputOptionalFields -> UpdateProjectInputOptionalFields)
+    -> UpdateProjectInput
+buildUpdateProjectInput required____ fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { set = Absent, remove = Absent }
+    in
+    UpdateProjectInput { filter = required____.filter, set = optionals____.set, remove = optionals____.remove }
+
+
+type alias UpdateProjectInputRequiredFields =
+    { filter : ProjectFilter }
+
+
+type alias UpdateProjectInputOptionalFields =
+    { set : OptionalArgument ProjectPatch
+    , remove : OptionalArgument ProjectPatch
+    }
+
+
+{-| Type alias for the `UpdateProjectInput` attributes. Note that this type
+needs to use the `UpdateProjectInput` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias UpdateProjectInputRaw =
+    { filter : ProjectFilter
+    , set : OptionalArgument ProjectPatch
+    , remove : OptionalArgument ProjectPatch
+    }
+
+
+{-| Type for the UpdateProjectInput input object.
+-}
+type UpdateProjectInput
+    = UpdateProjectInput UpdateProjectInputRaw
+
+
+{-| Encode a UpdateProjectInput into a value that can be used as an argument.
+-}
+encodeUpdateProjectInput : UpdateProjectInput -> Value
+encodeUpdateProjectInput (UpdateProjectInput input____) =
+    Encode.maybeObject
+        [ ( "filter", encodeProjectFilter input____.filter |> Just ), ( "set", encodeProjectPatch |> Encode.optional input____.set ), ( "remove", encodeProjectPatch |> Encode.optional input____.remove ) ]
+
+
+buildUpdateProjectTensionInput :
+    UpdateProjectTensionInputRequiredFields
+    -> (UpdateProjectTensionInputOptionalFields -> UpdateProjectTensionInputOptionalFields)
+    -> UpdateProjectTensionInput
+buildUpdateProjectTensionInput required____ fillOptionals____ =
+    let
+        optionals____ =
+            fillOptionals____
+                { set = Absent, remove = Absent }
+    in
+    UpdateProjectTensionInput { filter = required____.filter, set = optionals____.set, remove = optionals____.remove }
+
+
+type alias UpdateProjectTensionInputRequiredFields =
+    { filter : ProjectTensionFilter }
+
+
+type alias UpdateProjectTensionInputOptionalFields =
+    { set : OptionalArgument ProjectTensionPatch
+    , remove : OptionalArgument ProjectTensionPatch
+    }
+
+
+{-| Type alias for the `UpdateProjectTensionInput` attributes. Note that this type
+needs to use the `UpdateProjectTensionInput` type (not just a plain type alias) because it has
+references to itself either directly (recursive) or indirectly (circular). See
+<https://github.com/dillonkearns/elm-graphql/issues/33>.
+-}
+type alias UpdateProjectTensionInputRaw =
+    { filter : ProjectTensionFilter
+    , set : OptionalArgument ProjectTensionPatch
+    , remove : OptionalArgument ProjectTensionPatch
+    }
+
+
+{-| Type for the UpdateProjectTensionInput input object.
+-}
+type UpdateProjectTensionInput
+    = UpdateProjectTensionInput UpdateProjectTensionInputRaw
+
+
+{-| Encode a UpdateProjectTensionInput into a value that can be used as an argument.
+-}
+encodeUpdateProjectTensionInput : UpdateProjectTensionInput -> Value
+encodeUpdateProjectTensionInput (UpdateProjectTensionInput input____) =
+    Encode.maybeObject
+        [ ( "filter", encodeProjectTensionFilter input____.filter |> Just ), ( "set", encodeProjectTensionPatch |> Encode.optional input____.set ), ( "remove", encodeProjectTensionPatch |> Encode.optional input____.remove ) ]
 
 
 buildUpdateReactionInput :
