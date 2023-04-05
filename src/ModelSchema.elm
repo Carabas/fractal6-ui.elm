@@ -586,7 +586,8 @@ type alias PatchTensionPayloadID =
 
 
 type alias Project =
-    { name : String
+    { id : String
+    , name : String
     }
 
 
